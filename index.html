@@ -360,9 +360,16 @@
       h1 { font-size: 30px; }
       h2 { font-size: 26px; }
       .hero { padding: 90px 0 var(--space-2xl); }
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-image-wrapper { order: 1; max-height: 280px; overflow: hidden; border-radius: var(--radius-lg); }
+      .hero-grid { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+      .hero-text { order: 1; display: contents; }
+      .hero-text .hero-eyebrow { order: 1; }
+      .hero-text h1 { order: 2; }
+      .hero-image-wrapper { order: 3; max-height: 280px; overflow: hidden; border-radius: var(--radius-lg); margin-bottom: var(--space-md); }
       .hero-image-wrapper img { aspect-ratio: 16/9; object-fit: cover; }
+      .hero-text .hero-features { order: 4; }
+      .hero-text .hero-cta-group { order: 5; }
+      .hero-text .hero-micro { order: 6; }
+      .hero-text .hero-subheadline { order: 7; margin-top: var(--space-md); font-size: 16px; }
       .hero-badge { bottom: -10px; padding: 10px 20px; }
       .hero-badge .badge-text { font-size: 13px; }
       .hero-features { grid-template-columns: 1fr; }
