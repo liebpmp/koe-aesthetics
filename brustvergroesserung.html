@@ -377,12 +377,11 @@
       .hero-features { grid-template-columns: 1fr; }
       .empathy-grid, .incision-grid, .testimonials-grid { grid-template-columns: 1fr; }
       .implant-grid { grid-template-columns: 1fr; }
-      /* Trust bar: horizontal scroll, single line */
-      .trust-grid { flex-direction: row; flex-wrap: nowrap; gap: var(--space-lg); overflow-x: auto; justify-content: flex-start; padding: 0 8px; -webkit-overflow-scrolling: touch; }
-      .trust-stat { flex-shrink: 0; }
-      .trust-stat .number, .counter-value { font-size: 26px; }
-      .trust-stat .label { font-size: 12px; }
-      .trust-badge { flex-shrink: 0; padding: 10px 16px; }
+      /* Trust bar: 3-column grid mobile */
+      .trust-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-md); align-items: start; }
+      .trust-stat .number, .counter-value { font-size: 24px; }
+      .trust-stat .label { font-size: 11px; white-space: nowrap; }
+      .trust-badge { grid-column: 1 / -1; justify-self: center; padding: 10px 16px; }
       .trust-badge .badge-info .score { font-size: 13px; }
       .trust-badge .badge-info .meta { font-size: 11px; }
       /* Testimonial quotes smaller */
