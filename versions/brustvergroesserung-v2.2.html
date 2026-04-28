@@ -96,19 +96,6 @@
     .header-nav a:hover { color: var(--primary); }
     .header-cta { background: var(--primary); color: var(--white); font-family: var(--font-body); font-weight: 600; font-size: 15px; padding: 12px 28px; border-radius: var(--radius-sm); text-decoration: none; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(48,66,106,0.3); }
     .header-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
-    /* BURGER MENU */
-    .burger-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; z-index: 1002; }
-    .burger-toggle span { display: block; width: 24px; height: 2px; background: var(--primary); margin: 5px 0; transition: all 0.3s ease; border-radius: 2px; }
-    .burger-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .burger-toggle.open span:nth-child(2) { opacity: 0; }
-    .burger-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-    .mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; transition: opacity 0.3s; }
-    .mobile-nav-overlay.show { opacity: 1; }
-    .mobile-nav { display: none; position: fixed; top: 0; right: 0; width: 280px; height: 100%; background: var(--white); z-index: 1001; padding: 80px 24px 24px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
-    .mobile-nav.open { transform: translateX(0); }
-    .mobile-nav a { display: block; font-size: 18px; font-weight: 500; color: var(--text-primary); text-decoration: none; padding: 16px 0; border-bottom: 1px solid #eee; }
-    .mobile-nav a:last-child { border-bottom: none; }
-    .mobile-nav .mobile-nav-cta { display: block; background: var(--primary); color: var(--white); text-align: center; font-weight: 600; font-size: 16px; padding: 16px; border-radius: var(--radius-sm); margin-top: 24px; text-decoration: none; border-bottom: none; }
 
     /* HERO */
     .hero { background: linear-gradient(180deg, var(--blue-ultralight) 0%, var(--white) 100%); padding: 130px 0 var(--space-4xl); overflow: hidden; }
@@ -327,11 +314,12 @@
     .form-privacy a { color: var(--primary); }
 
     /* STICKY CTA */
-    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(48,66,106,0.97); backdrop-filter: blur(12px); padding: 14px 24px; z-index: 999; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(48,66,106,0.97); backdrop-filter: blur(12px); padding: 14px 24px; z-index: 999; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
     .sticky-cta.show { transform: translateY(0); }
-    .sticky-cta-inner { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0; }
-    .sticky-cta a { background: var(--white); color: var(--primary); font-weight: 600; font-size: 16px; padding: 14px 32px; border-radius: var(--radius-sm); text-decoration: none; box-shadow: 0 4px 14px rgba(48,66,106,0.4); transition: all 0.25s ease; width: 100%; text-align: center; }
-    .sticky-cta a:hover { background: var(--blue-ultralight); color: var(--primary-dark); }
+    .sticky-cta-inner { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: var(--space-md); }
+    .sticky-cta a { background: var(--primary-light); color: var(--white); font-weight: 600; font-size: 16px; padding: 14px 32px; border-radius: var(--radius-sm); text-decoration: none; box-shadow: 0 4px 14px rgba(48,66,106,0.4); transition: all 0.25s ease; }
+    .sticky-cta a:hover { background: var(--white); color: var(--primary); }
+    .sticky-cta .sticky-text { color: rgba(255,255,255,0.7); font-size: 14px; }
 
     /* FOOTER */
     .site-footer { background: var(--bg-darker); padding: var(--space-3xl) 0 var(--space-xl); }
@@ -352,6 +340,7 @@
       h2 { font-size: 32px; }
       .hero-grid, .method-detail, .tech-grid, .doctor-grid, .praxis-grid, .faq-grid, .contact-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
       .method-detail:nth-child(even) { direction: ltr; }
+      .hero-image-wrapper { order: -1; }
       .hero-floating-card { display: none; }
       .implant-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
@@ -359,43 +348,18 @@
     @media (max-width: 768px) {
       h1 { font-size: 30px; }
       h2 { font-size: 26px; }
-      .hero { padding: 90px 0 var(--space-2xl); }
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-image-wrapper { order: 1; max-height: 280px; overflow: hidden; border-radius: var(--radius-lg); }
-      .hero-image-wrapper img { aspect-ratio: 16/9; object-fit: cover; }
-      .hero-badge { bottom: -10px; padding: 10px 20px; }
-      .hero-badge .badge-text { font-size: 13px; }
+      .hero { padding: 100px 0 var(--space-2xl); }
       .hero-features { grid-template-columns: 1fr; }
       .empathy-grid, .incision-grid, .testimonials-grid { grid-template-columns: 1fr; }
       .implant-grid { grid-template-columns: 1fr; }
-      /* Trust bar: horizontal scroll, single line */
-      .trust-grid { flex-direction: row; flex-wrap: nowrap; gap: var(--space-lg); overflow-x: auto; justify-content: flex-start; padding: 0 8px; -webkit-overflow-scrolling: touch; }
-      .trust-stat { flex-shrink: 0; }
-      .trust-stat .number, .counter-value { font-size: 26px; }
-      .trust-stat .label { font-size: 12px; }
-      .trust-badge { flex-shrink: 0; padding: 10px 16px; }
-      .trust-badge .badge-info .score { font-size: 13px; }
-      .trust-badge .badge-info .meta { font-size: 11px; }
-      /* Testimonial quotes smaller */
-      .ft-quote { font-size: 16px; }
-      .quote-text { font-size: 17px !important; }
-      /* Praxis gallery 2-grid on mobile */
-      .praxis-gallery { grid-template-columns: 1fr 1fr !important; gap: var(--space-sm) !important; }
-      .praxis-gallery img { border-radius: var(--radius-sm); }
-      /* Form wider on mobile */
-      .contact-section .container { padding: 0 12px; }
-      .form-card { padding: var(--space-lg) var(--space-md); }
-      .form-row { grid-template-columns: 1fr; }
+      .trust-grid { flex-direction: column; gap: var(--space-lg); }
       .tech-features { grid-template-columns: 1fr; }
+      .praxis-gallery { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
       .process-timeline::before { left: 24px; }
       .step-marker { width: 50px; height: 50px; font-size: 18px; }
+      .counter-value { font-size: 32px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
-      /* Burger menu */
-      .header-nav { display: none; }
-      .burger-toggle { display: block; }
-      .mobile-nav, .mobile-nav-overlay { display: block; }
-      /* Footer logo fix */
-      .footer-brand img { background: var(--white); padding: 6px 12px; border-radius: var(--radius-sm); }
     }
     @media (max-width: 768px) {
       .sticky-cta.show { transform: translateY(0); }
@@ -420,19 +384,8 @@
       <a href="#faq">FAQ</a>
       <a href="#kontakt" class="header-cta">Beratung vereinbaren</a>
     </nav>
-    <button class="burger-toggle" id="burgerToggle" aria-label="Menü öffnen">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </header>
-<div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
-<nav class="mobile-nav" id="mobileNav">
-  <a href="#methoden">Methoden</a>
-  <a href="#ablauf">Ablauf</a>
-  <a href="#experte">Ihr Experte</a>
-  <a href="#faq">FAQ</a>
-  <a href="#kontakt" class="mobile-nav-cta">Beratung vereinbaren</a>
-</nav>
 
 <!-- HERO -->
 <section class="hero" id="hero">
@@ -451,9 +404,9 @@
           <div class="hero-feature"><div class="icon">✓</div> Echte Vorher-Nachher-Bilder vor Ort</div>
         </div>
         <div class="hero-cta-group fade-up fade-up-delay-4">
-          <a href="#kontakt" class="btn-primary">Beratung vereinbaren</a>
+          <a href="#kontakt" class="btn-primary">Ja, ich möchte mein Beratungsgespräch</a>
         </div>
-        <p class="hero-micro fade-up fade-up-delay-4">100% kostenlos · Unverbindlich · Antwort in 48h</p>
+        <p class="hero-micro fade-up fade-up-delay-4">100% kostenlos · Unverbindlich · Antwort innerhalb von 48h</p>
       </div>
       <div class="hero-image-wrapper fade-right">
         <img src="https://www.koe-aesthetics.de/assets/9c_brustvergrosserung/istock_479278262_2mmedia_zg.jpeg" alt="Brustvergrößerung Ergebnis – natürlich und harmonisch">
@@ -820,7 +773,7 @@
       </div>
     </div>
     <div class="cta-wrapper fade-up">
-      <a href="#kontakt" class="btn-primary">Beratung vereinbaren</a>
+      <a href="#kontakt" class="btn-primary">Jetzt Beratungsgespräch vereinbaren</a>
       <p class="cta-micro">Der erste Schritt zu Ihrem neuen Körpergefühl</p>
     </div>
   </div>
@@ -1074,9 +1027,15 @@
       <div class="form-card fade-right scale-in">
         <h3>Beratungsgespräch anfragen</h3>
         <form id="contactForm" onsubmit="return handleSubmit(event)">
-          <div class="form-group">
-            <label for="name">Ihr Name *</label>
-            <input type="text" id="name" name="name" required placeholder="Ihr Name">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="vorname">Vorname *</label>
+              <input type="text" id="vorname" name="vorname" required placeholder="Ihr Vorname">
+            </div>
+            <div class="form-group">
+              <label for="nachname">Nachname *</label>
+              <input type="text" id="nachname" name="nachname" required placeholder="Ihr Nachname">
+            </div>
           </div>
           <div class="form-group">
             <label for="email">E-Mail *</label>
@@ -1100,8 +1059,8 @@
             <label for="nachricht">Ihre Nachricht (optional)</label>
             <textarea id="nachricht" name="nachricht" rows="3" placeholder="Gibt es etwas, das Sie uns vorab mitteilen möchten?"></textarea>
           </div>
-          <button type="submit" class="form-submit">Beratung vereinbaren</button>
-          <p class="form-trust">🔒 Ihre Daten sind sicher · 100% unverbindlich · Antwort in 48h</p>
+          <button type="submit" class="form-submit">Ja, ich möchte mein Beratungsgespräch</button>
+          <p class="form-trust">🔒 Ihre Daten sind sicher · 100% unverbindlich · Antwort innerhalb von 48h</p>
           <p class="form-privacy">Mit Absenden des Formulars erklären Sie sich mit unserer <a href="https://www.koe-aesthetics.de/datenschutz" target="_blank">Datenschutzerklärung</a> einverstanden.</p>
         </form>
       </div>
@@ -1141,6 +1100,7 @@
 <!-- STICKY CTA (Mobile only) -->
 <div class="sticky-cta" id="stickyCta">
   <div class="sticky-cta-inner">
+    <span class="sticky-text">Beratung anfragen</span>
     <a href="#kontakt">Ja, ich möchte mein Beratungsgespräch</a>
   </div>
 </div>
@@ -1331,25 +1291,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
-
-// BURGER MENU
-(function(){
-  var burger = document.getElementById('burgerToggle');
-  var nav = document.getElementById('mobileNav');
-  var overlay = document.getElementById('mobileNavOverlay');
-  if (!burger || !nav || !overlay) return;
-  function toggle() {
-    burger.classList.toggle('open');
-    nav.classList.toggle('open');
-    overlay.classList.toggle('show');
-    document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
-  }
-  burger.addEventListener('click', toggle);
-  overlay.addEventListener('click', toggle);
-  nav.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() { toggle(); });
-  });
-})();
 </script>
 </body>
 </html>
