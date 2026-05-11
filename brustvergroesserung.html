@@ -58,7 +58,7 @@
     .accent-line { width: 60px; height: 3px; background: var(--gold); margin: 0 auto var(--space-lg); border-radius: 2px; }
     .section-header { text-align: center; margin-bottom: var(--space-2xl); }
     .section-subtitle { color: var(--text-light); font-size: 18px; text-align: center; max-width: 700px; margin: 0 auto; line-height: 1.6; }
-    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--accent); color: var(--white); font-family: var(--font-body); font-weight: 600; font-size: 17px; padding: 18px 40px; border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none; box-shadow: 0 4px 14px rgba(48,66,106,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); text-align: center; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--accent); color: var(--white); font-family: var(--font-body); font-weight: 600; font-size: 17px; padding: 18px 56px; border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none; box-shadow: 0 4px 14px rgba(48,66,106,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); text-align: center; }
     .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(48,66,106,0.4); }
     .btn-blue { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: var(--white); font-family: var(--font-body); font-weight: 600; font-size: 17px; padding: 18px 40px; border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none; box-shadow: 0 4px 14px rgba(48,66,106,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); text-align: center; }
     .btn-blue:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(48,66,106,0.4); }
@@ -327,11 +327,11 @@
     .form-privacy a { color: var(--primary); }
 
     /* STICKY CTA */
-    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(48,66,106,0.97); backdrop-filter: blur(12px); padding: 14px 24px; z-index: 999; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); z-index: 999; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); padding: 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
     .sticky-cta.show { transform: translateY(0); }
-    .sticky-cta-inner { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0; }
-    .sticky-cta a { background: var(--white); color: var(--primary); font-weight: 600; font-size: 16px; padding: 14px 32px; border-radius: var(--radius-sm); text-decoration: none; box-shadow: 0 4px 14px rgba(48,66,106,0.4); transition: all 0.25s ease; width: 100%; text-align: center; }
-    .sticky-cta a:hover { background: var(--blue-ultralight); color: var(--primary-dark); }
+    .sticky-cta-inner { display: flex; align-items: center; justify-content: center; }
+    .sticky-cta a { display: block; background: var(--primary); color: var(--white); font-weight: 600; font-size: 15px; padding: 14px 32px; text-decoration: none; transition: all 0.25s ease; width: 100%; text-align: center; letter-spacing: 0.02em; }
+    .sticky-cta a:hover { background: var(--primary-dark); color: var(--white); }
 
     /* FOOTER */
     .site-footer { background: var(--bg-darker); padding: var(--space-3xl) 0 var(--space-xl); }
@@ -369,8 +369,9 @@
       .hero-text .hero-features { order: 4; margin-bottom: 14px; }
       .hero-text .hero-features .hero-feature { font-size: 14px; margin-bottom: 4px; }
       .hero-text .hero-features .hero-feature:nth-child(2) { display: none; } /* Minimal-Scar ausblenden mobil */
-      .hero-text .hero-cta-group { order: 5; margin-top: 0; margin-bottom: 8px; }
-      .hero-text .hero-micro { order: 6; margin-bottom: 10px; }
+      .hero-text .hero-features .hero-feature:nth-child(6) { display: none; } /* Vorher-Nachher ausblenden mobil — Button soll im Sichtfeld sein */
+      .hero-text .hero-cta-group { order: 5; margin-top: 0; margin-bottom: 4px; }
+      .hero-text .hero-micro { order: 6; margin-bottom: 10px; font-size: 12px; white-space: nowrap; }
       .hero-text .hero-subheadline { order: 7; margin-top: 6px; font-size: 17px; line-height: 1.6; margin-bottom: 0; }
       .hero-badge { bottom: -10px; padding: 10px 20px; }
       .hero-badge .badge-text { font-size: 13px; }
@@ -451,17 +452,17 @@
         <h1 class="fade-up fade-up-delay-1">Natürliche <em>Brustvergrößerung</em> – für mehr Weiblichkeit & Wohlbefinden</h1>
         <p class="hero-subheadline fade-up fade-up-delay-2">Modernste Implantate, schonende Techniken und ein erfahrener Facharzt für ästhetisch-plastische Chirurgie. Ihr Weg zu einer harmonischen, natürlich aussehenden Brustform beginnt mit einem persönlichen Gespräch.</p>
         <div class="hero-features fade-up fade-up-delay-3">
-          <div class="hero-feature"><div class="icon">✓</div> No-Touch-Technik (Keller-Funnel)</div>
+          <div class="hero-feature"><div class="icon">✓</div> Sanfte No-Touch-Technik</div>
           <div class="hero-feature"><div class="icon">✓</div> Minimal-Scar: Narben ca. 3 cm</div>
-          <div class="hero-feature"><div class="icon">✓</div> Premium-Implantate (Polytech, Motiva, Mentor)</div>
-          <div class="hero-feature"><div class="icon">✓</div> 3D-Simulation im Beratungsgespräch</div>
+          <div class="hero-feature"><div class="icon">✓</div> Premium-Implantate</div>
+          <div class="hero-feature"><div class="icon">✓</div> Detaillierte 3D-Simulation</div>
           <div class="hero-feature"><div class="icon">✓</div> Facharzt mit 15+ Jahren Erfahrung</div>
-          <div class="hero-feature"><div class="icon">✓</div> Echte Vorher-Nachher-Bilder vor Ort</div>
+          <div class="hero-feature"><div class="icon">✓</div> Echte Vorher-Nachher-Bilder</div>
         </div>
         <div class="hero-cta-group fade-up fade-up-delay-4">
           <a href="#kontakt" class="btn-primary">Beratung vereinbaren</a>
         </div>
-        <p class="hero-micro fade-up fade-up-delay-4">100% kostenlos · Unverbindlich · Antwort in 48h</p>
+        <p class="hero-micro fade-up fade-up-delay-4">Online-Terminbuchung · Unverbindlich · Antwort in 48h</p>
       </div>
       <div class="hero-image-wrapper fade-right">
         <img src="https://www.koe-aesthetics.de/assets/9c_brustvergrosserung/istock_479278262_2mmedia_zg.jpeg" alt="Brustvergrößerung Ergebnis – natürlich und harmonisch">
@@ -635,6 +636,11 @@
       <h2>Premium-Implantate – nur das Beste für Sie</h2>
       <p class="section-subtitle">Wir arbeiten ausschließlich mit CE-zertifizierten Premium-Herstellern, die höchste Sicherheits- und Qualitätsstandards erfüllen.</p>
     </div>
+    <div class="wistia-video fade-up" style="max-width:720px;margin:0 auto var(--space-2xl);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);">
+      <div style="position:relative;padding-bottom:56.25%;height:0;">
+        <iframe src="https://fast.wistia.net/embed/iframe/0sjf0vkwek?seo=true&videoFoam=false" title="Massud Hosseini über Premium-Implantate" allow="autoplay; fullscreen" frameborder="0" scrolling="no" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:var(--radius-lg);"></iframe>
+      </div>
+    </div>
     <div class="implant-grid">
       <div class="implant-card fade-up">
         <div class="ic-logo"><img src="images/logo-polytech.svg" alt="Polytech" style="height:36px;width:auto;display:inline-block;"></div>
@@ -781,7 +787,7 @@
         <div class="step-body">
           <h4>Persönliches Beratungsgespräch</h4>
           <p>In vertrauensvoller Atmosphäre nehmen wir uns ausführlich Zeit für Ihre Wünsche und Fragen. Wir besprechen Ihre Vorstellungen, zeigen Ihnen echte Vorher-Nachher-Beispiele und beraten Sie zu den verschiedenen Methoden. Sie haben die Möglichkeit, unterschiedliche Implantate in die Hand zu nehmen und zu vergleichen.</p>
-          <span class="step-detail">⏱ Ca. 45–60 Minuten · 100% kostenlos & unverbindlich</span>
+          <span class="step-detail">⏱ Ca. 45–60 Minuten · Unverbindlich</span>
         </div>
       </div>
       <div class="process-step fade-up">
@@ -1145,7 +1151,7 @@
 <!-- STICKY CTA (Mobile only) -->
 <div class="sticky-cta" id="stickyCta">
   <div class="sticky-cta-inner">
-    <a href="#kontakt">Ja, ich möchte mein Beratungsgespräch</a>
+    <a href="#kontakt">Termin vereinbaren</a>
   </div>
 </div>
 
@@ -1325,8 +1331,9 @@ function handleSubmit(e) {
   return false;
 }
 
-// Smooth scroll for anchor links
+// Smooth scroll for anchor links (skip mobile-nav links — handled separately)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  if (anchor.closest('.mobile-nav')) return; // mobile-nav links handled by burger menu code
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
@@ -1336,22 +1343,41 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// BURGER MENU
+// BURGER MENU — only burger button opens/closes, nav links close + scroll
 (function(){
   var burger = document.getElementById('burgerToggle');
   var nav = document.getElementById('mobileNav');
   var overlay = document.getElementById('mobileNavOverlay');
   if (!burger || !nav || !overlay) return;
-  function toggle() {
-    burger.classList.toggle('open');
-    nav.classList.toggle('open');
-    overlay.classList.toggle('show');
-    document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+  function openNav() {
+    burger.classList.add('open');
+    nav.classList.add('open');
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
   }
-  burger.addEventListener('click', toggle);
-  overlay.addEventListener('click', toggle);
+  function closeNav() {
+    burger.classList.remove('open');
+    nav.classList.remove('open');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (nav.classList.contains('open')) { closeNav(); } else { openNav(); }
+  });
+  overlay.addEventListener('click', closeNav);
   nav.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() { toggle(); });
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeNav();
+      var href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        var target = document.querySelector(href);
+        if (target) {
+          setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+        }
+      }
+    });
   });
 })();
 </script>
