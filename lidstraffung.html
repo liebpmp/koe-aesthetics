@@ -102,8 +102,8 @@
     .burger-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .burger-toggle.open span:nth-child(2) { opacity: 0; }
     .burger-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-    .mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; transition: opacity 0.3s; }
-    .mobile-nav-overlay.show { opacity: 1; }
+    .mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .mobile-nav-overlay.show { opacity: 1; pointer-events: auto; }
     .mobile-nav { display: none; position: fixed; top: 0; right: 0; width: 280px; height: 100%; background: var(--white); z-index: 1001; padding: 80px 24px 24px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
     .mobile-nav.open { transform: translateX(0); }
     .mobile-nav a { display: block; font-size: 18px; font-weight: 500; color: var(--text-primary); text-decoration: none; padding: 16px 0; border-bottom: 1px solid #eee; }
@@ -529,8 +529,10 @@
         </div>
       </div>
       <div class="fade-right">
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
-          <iframe src="https://fast.wistia.net/embed/iframe/d4m3d93rhk?seo=true&videoFoam=false" title="Chefarzt Massud Hosseini über Lidstraffung" allow="autoplay; fullscreen" allowfullscreen loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: var(--radius-lg);"></iframe>
+        <div style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+          <script src="https://fast.wistia.com/embed/d4m3d93rhk.js" async type="module"></script>
+          <style>wistia-player[media-id="d4m3d93rhk"] { aspect-ratio: 16/9; width: 100%; display: block; }</style>
+          <wistia-player media-id="d4m3d93rhk" seo="true"></wistia-player>
         </div>
         <div style="text-align: center; margin-top: var(--space-lg);">
           <a href="#kontakt" class="btn-primary">Beratung zur Lidstraffung vereinbaren</a>
@@ -1284,13 +1286,27 @@ document.querySelectorAll('.faq-question').forEach(q => {
 });
 
 // Mobile nav toggle (hamburger)
-const navToggle = document.querySelector('.nav-toggle');
-const headerNav = document.querySelector('.header-nav');
-if (navToggle) {
-  navToggle.addEventListener('click', () => {
-    headerNav.classList.toggle('open');
+const burgerToggle = document.getElementById('burgerToggle');
+const mobileNav = document.getElementById('mobileNav');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+function closeMobileNav() {
+  burgerToggle && burgerToggle.classList.remove('open');
+  mobileNav && mobileNav.classList.remove('open');
+  mobileNavOverlay && mobileNavOverlay.classList.remove('show');
+}
+if (burgerToggle) {
+  burgerToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = mobileNav.classList.contains('open');
+    if (isOpen) { closeMobileNav(); } else {
+      burgerToggle.classList.add('open');
+      mobileNav.classList.add('open');
+      mobileNavOverlay.classList.add('show');
+    }
   });
 }
+if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeMobileNav);
+if (mobileNav) mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
 
 // UTM & Behandlung Parameter Tracking (from Framer withAllParams)
 (function() {
