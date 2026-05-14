@@ -44,7 +44,7 @@
       --shadow-xl: 0 20px 60px rgba(48,66,106,0.15);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 84px; }
+    html { overflow-x: hidden; scroll-padding-top: 84px; }
     body { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--text-secondary); background: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     img { max-width: 100%; height: auto; display: block; }
     .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
@@ -260,7 +260,7 @@
     .doctor-section { padding: var(--space-5xl) 0; background: var(--blue-ultralight); }
     .doctor-grid { display: grid; grid-template-columns: 42% 58%; gap: var(--space-3xl); align-items: center; }
     .doctor-image-wrapper { position: relative; }
-    .doctor-image-wrapper img { border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); }
+    .doctor-image-wrapper img { border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); width: 100%; aspect-ratio: 2117/1992; }
     .doctor-exp-badge { position: absolute; bottom: -16px; left: 24px; background: var(--primary); color: var(--white); border-radius: var(--radius-lg); padding: 16px 24px; box-shadow: var(--shadow-md); }
     .doctor-exp-badge .deb-number { font-family: var(--font-heading); font-size: 32px; font-weight: 700; }
     .doctor-exp-badge .deb-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
@@ -950,7 +950,7 @@
   <div class="container">
     <div class="doctor-grid">
       <div class="doctor-image-wrapper fade-left">
-        <img src="https://www.koe-aesthetics.de/assets/1_ueber-uns/hosseini_4.jpeg" alt="Massud Hosseini – Facharzt für Plastische und Ästhetische Chirurgie" loading="lazy">
+        <img src="https://www.koe-aesthetics.de/assets/1_ueber-uns/hosseini_4.jpeg" alt="Massud Hosseini – Facharzt für Plastische und Ästhetische Chirurgie" loading="lazy" width="2117" height="1992">
         <div class="doctor-exp-badge">
           <div class="deb-number">15+</div>
           <div class="deb-label">Jahre Erfahrung</div>
@@ -1370,7 +1370,53 @@ function handleSubmit(e) {
   return false;
 }
 
-// Scroll: rein CSS-nativ (scroll-behavior:smooth + scroll-padding-top auf html). Kein JS nötig.
+// Smooth scroll for all anchor links (JS-based, iOS Safari compatible)
+// Replaces CSS scroll-behavior:smooth which has bugs on iOS Safari with scroll-padding-top.
+// Pre-reveals animated elements in the target section to prevent scroll-position shifts.
+(function() {
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      var target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+
+      // Close mobile nav if open
+      var nav = document.getElementById('mobileNav');
+      if (nav && nav.classList.contains('open')) {
+        var burger = document.getElementById('burgerToggle');
+        var overlay = document.getElementById('mobileNavOverlay');
+        if (burger) burger.classList.remove('open');
+        nav.classList.remove('open');
+        if (overlay) overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+
+      // Pre-reveal animated elements in the target section to prevent layout/compositing shifts
+      var section = target.closest('section');
+      if (section) {
+        section.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(function(el) {
+          if (!el.classList.contains('visible')) {
+            el.style.transition = 'none';
+            el.classList.add('visible');
+            // Restore transition capability after repaint
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                el.style.transition = '';
+              });
+            });
+          }
+        });
+      }
+
+      // Calculate exact scroll position with fixed header offset
+      var headerOffset = 84;
+      var targetPos = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: Math.max(0, targetPos), behavior: 'smooth' });
+    });
+  });
+})();
 
 // BURGER MENU
 (function(){
@@ -1386,9 +1432,7 @@ function handleSubmit(e) {
   }
   burger.addEventListener('click', toggle);
   overlay.addEventListener('click', toggle);
-  nav.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() { toggle(); });
-  });
+  // Note: nav link clicks are handled by the smooth-scroll handler above (closes nav + scrolls)
 })();
 </script>
 </body>
