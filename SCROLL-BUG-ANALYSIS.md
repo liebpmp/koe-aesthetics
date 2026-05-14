@@ -44,7 +44,27 @@ By instantly revealing animated elements in the target section BEFORE starting t
 - The layout is fully settled before scrollTo calculates the target
 - First click behaves identically to second click
 
+## Actual Root Cause (confirmed via Playwright test)
+
+**The doctor image `hosseini_4.jpeg` (2117×1992px, lazy-loaded, no dimensions) caused a 308px layout shift during scroll.**
+
+Before fix: Image starts at 0px height → loads during scroll → jumps to 308px → pushes `#formular` down by 308px → scroll lands 308px too high.
+
+After fix: CSS `aspect-ratio: 2117/1992` + HTML `width="2117" height="1992"` → image reserves 308px height before loading → zero layout shift → scroll lands perfectly at 84px offset.
+
+## Test Results (Playwright, 375×812 mobile viewport)
+
+| Test | Before Fix | After Fix |
+|------|-----------|-----------|
+| Click 1 → formular top | 392px ❌ | 84px ✅ |
+| Click 2 → formular top | 84px | 84px ✅ |
+| Position difference | 308px | 0px ✅ |
+| Page height change during scroll | +308px | 0px ✅ |
+| Sticky CTA scroll | untested | 84px ✅ |
+| Mobile nav CTA scroll | untested | 84px ✅ |
+
 ## Files Changed
-- `lidstraffung.html` — CSS + JS fix
+- `lidstraffung.html` — CSS aspect-ratio on doctor image + JS scrollTo + pre-reveal
 - `brustvergroesserung.html` — same fix
 - `index.html` — copy of brustvergroesserung.html
+- `SCROLL-BUG-ANALYSIS.md` — this file
