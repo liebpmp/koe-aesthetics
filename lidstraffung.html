@@ -1092,7 +1092,7 @@
 <section class="contact-section" id="kontakt">
   <div class="container">
     <div class="contact-grid">
-      <div class="contact-info">
+      <div class="contact-info fade-left">
         <div class="accent-line" style="margin: 0 0 var(--space-lg);"></div>
         <h2>Jetzt unverbindlich beraten lassen!</h2>
         <p>Füllen Sie das Formular aus und wählen Sie im nächsten Schritt direkt einen Termin im Online-Kalender.</p>
@@ -1128,7 +1128,7 @@
         </div>
         <p style="font-size: 15px; color: var(--text-light); margin-top: var(--space-lg);">📞 <strong>Kein passender Termin dabei?</strong><br>Dann ruft Sie ein Teammitglied innerhalb von 48h persönlich an, um offene Fragen zu klären und gemeinsam einen Termin zu finden – ganz entspannt und unverbindlich.</p>
       </div>
-      <div class="form-card" id="formular">
+      <div class="form-card fade-right scale-in" id="formular">
         <h3>Beratungsgespräch anfragen</h3>
         <form id="contactForm" onsubmit="return handleSubmit(event)">
           <div class="form-group">
@@ -1373,22 +1373,23 @@ function handleSubmit(e) {
   return false;
 }
 
-// Smooth scroll for anchor links (offset for sticky header, pre-reveal animations)
+// Smooth scroll for anchor links (offset for sticky header, instant-reveal animations)
 function smoothScrollTo(target) {
-  // Pre-reveal all animated elements near the target to prevent layout shift
-  target.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(el => el.classList.add('visible'));
-  if (target.classList.contains('fade-up') || target.classList.contains('fade-right') || target.classList.contains('fade-left') || target.classList.contains('scale-in')) {
-    target.classList.add('visible');
-  }
-  // Also reveal the parent section's animated children
-  const section = target.closest('section');
-  if (section) section.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(el => el.classList.add('visible'));
-  // Scroll after a frame to let layout settle
-  requestAnimationFrame(() => {
-    const headerHeight = document.getElementById('header').offsetHeight || 72;
-    const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
-    window.scrollTo({ top: top, behavior: 'smooth' });
+  // Instant-reveal all animated elements in the target section (no transition = no layout shift)
+  const section = target.closest('section') || target;
+  const animEls = section.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in');
+  animEls.forEach(el => {
+    el.style.transition = 'none';
+    el.classList.add('visible');
   });
+  // Force reflow so styles apply instantly
+  void section.offsetHeight;
+  // Restore transitions after a frame (for future scroll-triggered animations elsewhere)
+  requestAnimationFrame(() => { animEls.forEach(el => el.style.transition = ''); });
+  // Now scroll — layout is already final
+  const headerHeight = document.getElementById('header').offsetHeight || 72;
+  const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+  window.scrollTo({ top: top, behavior: 'smooth' });
 }
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   if (anchor.closest('.mobile-nav')) return;

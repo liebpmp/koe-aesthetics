@@ -1045,7 +1045,7 @@
 <section class="contact-section" id="kontakt">
   <div class="container">
     <div class="contact-grid">
-      <div class="contact-info">
+      <div class="contact-info fade-left">
         <div class="accent-line" style="margin: 0 0 var(--space-lg);"></div>
         <h2>Jetzt unverbindlich beraten lassen!</h2>
         <p>Tragen Sie sich einfach ins Formular ein. Im nächsten Schritt können Sie direkt einen Termin im Online-Kalender auswählen.</p>
@@ -1081,7 +1081,7 @@
         </div>
         <p style="font-size: 15px; color: var(--text-light); margin-top: var(--space-lg);">📞 <strong>Kein passender Termin dabei?</strong><br>Dann ruft Sie ein Teammitglied innerhalb von 48h persönlich an, um offene Fragen zu klären und gemeinsam einen Termin zu finden – ganz entspannt und unverbindlich.</p>
       </div>
-      <div class="form-card" id="formular">
+      <div class="form-card fade-right scale-in" id="formular">
         <h3>Beratungsgespräch anfragen</h3>
         <form id="contactForm" onsubmit="return handleSubmit(event)">
           <div class="form-group">
@@ -1326,19 +1326,19 @@ function handleSubmit(e) {
 }
 
 // Smooth scroll for anchor links (skip mobile-nav links — handled separately)
-// Pre-reveal animations near scroll target to prevent layout shift during smooth scroll
+// Smooth scroll with instant-reveal of animations (no layout shift)
 function smoothScrollTo(target) {
-  target.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(el => el.classList.add('visible'));
-  if (target.classList.contains('fade-up') || target.classList.contains('fade-right') || target.classList.contains('fade-left') || target.classList.contains('scale-in')) {
-    target.classList.add('visible');
-  }
-  const section = target.closest('section');
-  if (section) section.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(el => el.classList.add('visible'));
-  requestAnimationFrame(() => {
-    const headerHeight = document.getElementById('header').offsetHeight || 72;
-    const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
-    window.scrollTo({ top: top, behavior: 'smooth' });
+  const section = target.closest('section') || target;
+  const animEls = section.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in');
+  animEls.forEach(el => {
+    el.style.transition = 'none';
+    el.classList.add('visible');
   });
+  void section.offsetHeight;
+  requestAnimationFrame(() => { animEls.forEach(el => el.style.transition = ''); });
+  const headerHeight = document.getElementById('header').offsetHeight || 72;
+  const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+  window.scrollTo({ top: top, behavior: 'smooth' });
 }
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   if (anchor.closest('.mobile-nav')) return;
