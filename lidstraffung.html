@@ -104,8 +104,8 @@
     .burger-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
     .mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     .mobile-nav-overlay.show { opacity: 1; pointer-events: auto; }
-    .mobile-nav { display: none; position: fixed; top: 0; right: 0; width: 280px; height: 100%; background: var(--white); z-index: 1001; padding: 80px 24px 24px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
-    .mobile-nav.open { transform: translateX(0); }
+    .mobile-nav { display: none; position: fixed; top: 0; right: 0; width: 280px; height: 100%; background: var(--white); z-index: 1001; padding: 80px 24px 24px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: -4px 0 20px rgba(0,0,0,0.1); pointer-events: none; }
+    .mobile-nav.open { transform: translateX(0); pointer-events: auto; }
     .mobile-nav a { display: block; font-size: 18px; font-weight: 500; color: var(--text-primary); text-decoration: none; padding: 16px 0; border-bottom: 1px solid #eee; }
     .mobile-nav a:last-child { border-bottom: none; }
     .mobile-nav .mobile-nav-cta { display: block; background: var(--primary); color: var(--white); text-align: center; font-weight: 600; font-size: 16px; padding: 16px; border-radius: var(--radius-sm); margin-top: 24px; text-decoration: none; border-bottom: none; }
