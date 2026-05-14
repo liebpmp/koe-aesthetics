@@ -102,8 +102,8 @@
     .burger-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .burger-toggle.open span:nth-child(2) { opacity: 0; }
     .burger-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-    .mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; transition: opacity 0.3s; }
-    .mobile-nav-overlay.show { opacity: 1; }
+    .mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .mobile-nav-overlay.show { opacity: 1; pointer-events: auto; }
     .mobile-nav { display: none; position: fixed; top: 0; right: 0; width: 280px; height: 100%; background: var(--white); z-index: 1001; padding: 80px 24px 24px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
     .mobile-nav.open { transform: translateX(0); }
     .mobile-nav a { display: block; font-size: 18px; font-weight: 500; color: var(--text-primary); text-decoration: none; padding: 16px 0; border-bottom: 1px solid #eee; }
@@ -1237,14 +1237,7 @@ document.querySelectorAll('.faq-question').forEach(q => {
   });
 });
 
-// Mobile nav toggle (hamburger)
-const navToggle = document.querySelector('.nav-toggle');
-const headerNav = document.querySelector('.header-nav');
-if (navToggle) {
-  navToggle.addEventListener('click', () => {
-    headerNav.classList.toggle('open');
-  });
-}
+// Mobile nav toggle — handled by BURGER MENU block at bottom of script
 
 // UTM & Behandlung Parameter Tracking (from Framer withAllParams)
 (function() {
