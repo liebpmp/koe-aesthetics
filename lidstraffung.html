@@ -44,8 +44,7 @@
       --shadow-xl: 0 20px 60px rgba(48,66,106,0.15);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
-    [id] { scroll-margin-top: 84px; }
+    html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 84px; }
     body { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--text-secondary); background: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     img { max-width: 100%; height: auto; display: block; }
     .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
@@ -412,6 +411,10 @@
     @media (min-width: 769px) {
       .sticky-cta { display: none !important; }
     }
+    @media (max-width: 768px) {
+      .video-grid { grid-template-columns: 1fr !important; gap: var(--space-xl) !important; }
+      .video-grid h2 { font-size: 24px !important; }
+    }
   </style>
 </head>
 <body>
@@ -509,7 +512,7 @@
 <!-- EXPERT VIDEO SECTION -->
 <section style="padding: var(--space-5xl) 0; background: var(--white);">
   <div class="container">
-    <div style="display: grid; grid-template-columns: 45% 55%; gap: var(--space-3xl); align-items: center;">
+    <div class="video-grid" style="display: grid; grid-template-columns: 45% 55%; gap: var(--space-3xl); align-items: center;">
       <div class="fade-left">
         <div class="accent-line" style="margin: 0 0 var(--space-lg);"></div>
         <h2 style="text-align: left;">In 60 Sekunden: Was eine Lidstraffung bewirken kann</h2>
@@ -540,12 +543,6 @@
       </div>
     </div>
   </div>
-  <style>
-    @media (max-width: 768px) {
-      section:has(iframe) .container > div { grid-template-columns: 1fr !important; gap: var(--space-xl) !important; }
-      section:has(iframe) h2 { font-size: 24px !important; }
-    }
-  </style>
 </section>
 
 <!-- FEATURED TESTIMONIAL -->
@@ -1129,7 +1126,7 @@
         <p style="font-size: 15px; color: var(--text-light); margin-top: var(--space-lg);">📞 <strong>Kein passender Termin dabei?</strong><br>Dann ruft Sie ein Teammitglied innerhalb von 48h persönlich an, um offene Fragen zu klären und gemeinsam einen Termin zu finden – ganz entspannt und unverbindlich.</p>
       </div>
       <div class="form-card fade-right scale-in">
-        <h3 id="formular" style="scroll-margin-top: 84px;">Beratungsgespräch anfragen</h3>
+        <h3 id="formular">Beratungsgespräch anfragen</h3>
         <form id="contactForm" onsubmit="return handleSubmit(event)">
           <div class="form-group">
             <label for="name">Ihr Name *</label>
@@ -1373,32 +1370,7 @@ function handleSubmit(e) {
   return false;
 }
 
-// Smooth scroll — reveal ALL animations instantly before scrolling (prevents layout shift during scroll)
-(function(){
-  function revealAll(){
-    document.querySelectorAll('.fade-up,.fade-left,.fade-right,.scale-in').forEach(function(el){
-      el.style.transition='none';
-      el.classList.add('visible');
-    });
-    void document.body.offsetHeight;
-    setTimeout(function(){
-      document.querySelectorAll('.fade-up,.fade-left,.fade-right,.scale-in').forEach(function(el){
-        el.style.transition='';
-      });
-    },50);
-  }
-  document.querySelectorAll('a[href^="#"]').forEach(function(a){
-    a.addEventListener('click',function(e){
-      var href=this.getAttribute('href');
-      if(href==='#')return;
-      e.preventDefault();
-      revealAll();
-      var t=document.querySelector(href);
-      if(!t)return;
-      window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-84,behavior:'smooth'});
-    });
-  });
-})();
+// Scroll: rein CSS-nativ (scroll-behavior:smooth + scroll-padding-top auf html). Kein JS nötig.
 
 // BURGER MENU
 (function(){
