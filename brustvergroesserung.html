@@ -1327,7 +1327,8 @@ function handleSubmit(e) {
 }
 
 // Smooth scroll for anchor links (skip mobile-nav links — handled separately)
-// Smooth scroll handled by CSS: html { scroll-behavior: smooth } + scroll-margin-top on targets
+// Smooth scroll — same pattern as Villa Bella (works perfectly on iOS Safari)
+(function(){document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var href=this.getAttribute('href');if(href==='#')return;e.preventDefault();var t=document.querySelector(href);if(!t)return;window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-84,behavior:'smooth'})})})})();
 
 // BURGER MENU — only burger button opens/closes, nav links close + scroll
 (function(){
