@@ -1083,7 +1083,7 @@
       </div>
       <div class="form-card">
         <h3 id="formular">Beratungsgespräch anfragen</h3>
-        <form id="contactForm" onsubmit="return handleSubmit(event)">
+        <form id="contactForm">
           <div class="form-group">
             <label for="name">Ihr Name *</label>
             <input type="text" id="name" name="name" required placeholder="Ihr Name">
@@ -1283,65 +1283,70 @@ document.querySelectorAll('.faq-question').forEach(q => {
   form.appendChild(pageInput);
 })();
 
-// Form submit handler — Zapier Webhook + Jameda Redirect
-function handleSubmit(e) {
-  e.preventDefault();
-  var form = e.target;
-  var btn = form.querySelector('.form-submit');
-  btn.textContent = 'Wird gesendet...';
-  btn.disabled = true;
+// Form submit handler — exact Villa Bella pattern
+(function() {
+  var form = document.getElementById('contactForm');
+  if (!form) return;
 
-  // Collect form data
-  var formData = new FormData(form);
-  var mail = (formData.get('email') || '').trim();
-  var phone = (formData.get('phone') || formData.get('telefon') || '').trim();
-  var fullName = (formData.get('name') || '').trim();
-  var nameParts = fullName.split(/\s+/);
-  var firstName = nameParts[0] || '';
-  var lastName = nameParts.slice(1).join(' ') || '';
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  // Push to dataLayer for GTM (Google Ads Conversion + Enhanced Conversions)
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    'event': 'generate_lead',
-    'user_data': {
-      'email': mail,
-      'phone_number': phone,
-      'address': {
-        'first_name': firstName,
-        'last_name': lastName
+    var btn = form.querySelector('.form-submit');
+    btn.textContent = 'Wird gesendet...';
+    btn.disabled = true;
+
+    var formData = new FormData(form);
+
+    // Extract user data for GTM
+    var fullName = (formData.get('name') || '').trim();
+    var phone = (formData.get('telefon') || '').trim();
+    var mail = (formData.get('email') || '').trim();
+
+    var nameParts = fullName.split(' ');
+    var firstName = nameParts[0] || '';
+    var lastName = nameParts.slice(1).join(' ') || firstName;
+
+    // === GTM User-Provided Data (Enhanced Conversions) ===
+    // Set global vars so GTM JS variables can read them anytime
+    window._user_email = mail;
+    window._user_phone = phone;
+    window._user_firstname = firstName;
+    window._user_lastname = lastName;
+
+    // Push to dataLayer for GTM Enhanced Conversions
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'generate_lead',
+      'user_data': {
+        'email': mail,
+        'phone_number': phone,
+        'address': {
+          'first_name': firstName,
+          'last_name': lastName
+        }
       }
+    });
+
+    // Submit to Zapier (fire-and-forget via sendBeacon with FormData, then redirect)
+    try {
+      navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', formData);
+    } catch(e2) {
+      fetch('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', {
+        method: 'POST',
+        body: formData,
+        keepalive: true
+      }).catch(function(){});
     }
+
+    btn.textContent = '✓ Anfrage gesendet – Sie werden weitergeleitet...';
+    btn.style.background = '#27AE60';
+
+    // Delay redirect 500ms so GTM can process the dataLayer event
+    setTimeout(function() {
+      window.location.href = 'https://www.jameda.de/massud-hosseini/plastischer-aesthetischer-chirurg/duesseldorf';
+    }, 500);
   });
-
-  // Build Zapier payload with correct field names
-  var zapierPayload = {};
-  formData.forEach(function(value, key) { zapierPayload[key] = value; });
-  zapierPayload.submitted_at = new Date().toISOString();
-
-  // Submit to Zapier via sendBeacon with JSON blob (fire-and-forget)
-  try {
-    var blob = new Blob([JSON.stringify(zapierPayload)], { type: 'application/json' });
-    navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', blob);
-  } catch(e2) {
-    fetch('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', {
-      method: 'POST',
-      body: JSON.stringify(zapierPayload),
-      headers: { 'Content-Type': 'application/json' },
-      keepalive: true
-    }).catch(function(){});
-  }
-
-  btn.textContent = '✓ Anfrage gesendet – Sie werden weitergeleitet...';
-  btn.style.background = '#27AE60';
-
-  // Delay redirect 500ms so GTM can process the dataLayer event
-  setTimeout(function() {
-    window.location.href = 'https://www.jameda.de/massud-hosseini/plastischer-aesthetischer-chirurg/duesseldorf';
-  }, 500);
-
-  return false;
-}
+})();
 
 // Smooth scroll for all anchor links (JS-based, iOS Safari compatible)
 // Replaces CSS scroll-behavior:smooth which has bugs on iOS Safari with scroll-padding-top.
