@@ -1331,41 +1331,53 @@ document.querySelectorAll('.faq-question').forEach(q => {
 // Form submit handler — Zapier Webhook + Jameda Redirect
 function handleSubmit(e) {
   e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.form-submit');
+  var form = e.target;
+  var btn = form.querySelector('.form-submit');
   btn.textContent = 'Wird gesendet...';
   btn.disabled = true;
 
-  // Collect all form data (including hidden UTM/behandlung fields)
-  const formData = new FormData(form);
-  const data = {};
-  formData.forEach(function(value, key) { data[key] = value; });
+  // Collect form data
+  var formData = new FormData(form);
+  var mail = (formData.get('email') || '').trim();
+  var phone = (formData.get('phone') || formData.get('telefon') || '').trim();
+  var fullName = (formData.get('name') || '').trim();
+  var nameParts = fullName.split(/\s+/);
+  var firstName = nameParts[0] || '';
+  var lastName = nameParts.slice(1).join(' ') || '';
 
-  // Add timestamp
-  data.submitted_at = new Date().toISOString();
-
-  // Send to Zapier Webhook
-  fetch('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' }
-  })
-  .then(function() {
-    btn.textContent = '✓ Anfrage gesendet – Sie werden weitergeleitet...';
-    btn.style.background = '#27AE60';
-    // Redirect to Jameda profile
-    setTimeout(function() {
-      window.location.href = 'https://www.jameda.de/massud-hosseini/plastischer-aesthetischer-chirurg/duesseldorf';
-    }, 1500);
-  })
-  .catch(function() {
-    // Even on error, redirect (Zapier sometimes returns CORS issues but still processes)
-    btn.textContent = '✓ Anfrage gesendet – Sie werden weitergeleitet...';
-    btn.style.background = '#27AE60';
-    setTimeout(function() {
-      window.location.href = 'https://www.jameda.de/massud-hosseini/plastischer-aesthetischer-chirurg/duesseldorf';
-    }, 1500);
+  // Push to dataLayer for GTM (Google Ads Conversion + Enhanced Conversions)
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    'event': 'generate_lead',
+    'user_data': {
+      'email': mail,
+      'phone_number': phone,
+      'address': {
+        'first_name': firstName,
+        'last_name': lastName
+      }
+    }
   });
+
+  // Submit to Zapier (fire-and-forget via sendBeacon, then redirect after GTM delay)
+  try {
+    navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', new URLSearchParams(formData).toString());
+  } catch(e2) {
+    fetch('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(formData)),
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true
+    }).catch(function(){});
+  }
+
+  btn.textContent = '✓ Anfrage gesendet – Sie werden weitergeleitet...';
+  btn.style.background = '#27AE60';
+
+  // Delay redirect 500ms so GTM can process the dataLayer event
+  setTimeout(function() {
+    window.location.href = 'https://www.jameda.de/massud-hosseini/plastischer-aesthetischer-chirurg/duesseldorf';
+  }, 500);
 
   return false;
 }
