@@ -1314,13 +1314,19 @@ function handleSubmit(e) {
     }
   });
 
-  // Submit to Zapier (fire-and-forget via sendBeacon, then redirect after GTM delay)
+  // Build Zapier payload with correct field names
+  var zapierPayload = {};
+  formData.forEach(function(value, key) { zapierPayload[key] = value; });
+  zapierPayload.submitted_at = new Date().toISOString();
+
+  // Submit to Zapier via sendBeacon with JSON blob (fire-and-forget)
   try {
-    navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', new URLSearchParams(formData).toString());
+    var blob = new Blob([JSON.stringify(zapierPayload)], { type: 'application/json' });
+    navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', blob);
   } catch(e2) {
     fetch('https://hooks.zapier.com/hooks/catch/10412562/20sso57/', {
       method: 'POST',
-      body: JSON.stringify(Object.fromEntries(formData)),
+      body: JSON.stringify(zapierPayload),
       headers: { 'Content-Type': 'application/json' },
       keepalive: true
     }).catch(function(){});
