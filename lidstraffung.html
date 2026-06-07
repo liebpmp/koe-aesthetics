@@ -13,7 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <title>Lidstraffung Düsseldorf | KÖ-Aesthetics – Massud Hosseini</title>
   <meta name="description" content="Lidstraffung in Düsseldorf bei KÖ-Aesthetics: Natürliche Ergebnisse, 15+ Jahre Erfahrung in der ästhetischen Lidchirurgie. Jetzt unverbindlich beraten lassen.">
   <meta name="robots" content="index, follow">
-  <meta name="page-specific-behandlung" data-behandlung-id="lidstraffung" data-behandlung_subkategorie="oberlid-unterlid-laser">
+  <meta name="page-specific-behandlung" data-behandlung-id="lidstraffung" data-behandlung_subkategorie="Lidstraffung">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1140,15 +1140,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <form id="contactForm">
           <div class="form-group">
             <label for="name">Ihr Name *</label>
-            <input type="text" id="name" name="name" required placeholder="Ihr Name">
+            <input type="text" id="name" name="Name" required placeholder="Ihr Name">
           </div>
           <div class="form-group">
             <label for="email">E-Mail *</label>
-            <input type="email" id="email" name="email" required placeholder="ihre@email.de">
+            <input type="email" id="email" name="E-Mail-Adresse" required placeholder="ihre@email.de">
           </div>
           <div class="form-group">
             <label for="telefon">Telefon *</label>
-            <input type="tel" id="telefon" name="telefon" required placeholder="+49 (0)211 ...">
+            <input type="tel" id="telefon" name="Telefonnummer" required placeholder="+49 (0)211 ...">
           </div>
           <div class="form-group">
             <label for="interesse">Mein Interesse</label>
@@ -1163,7 +1163,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
           <div class="form-group">
             <label for="nachricht">Ihre Nachricht (optional)</label>
-            <textarea id="nachricht" name="nachricht" rows="3" placeholder="Gibt es etwas, das Sie uns vorab mitteilen möchten?"></textarea>
+            <textarea id="nachricht" name="Nachricht" rows="3" placeholder="Gibt es etwas, das Sie uns vorab mitteilen möchten?"></textarea>
           </div>
           <button type="submit" class="form-submit">Beratung vereinbaren</button>
           <p class="form-trust">🔒 Ihre Daten sind sicher · 100% unverbindlich · Antwort in 48h</p>
@@ -1352,10 +1352,21 @@ document.querySelectorAll('.faq-question').forEach(q => {
 
     var formData = new FormData(form);
 
+    // Set behandlung_subkategorie: use selected interest text, fallback to page topic
+    var interesseSelect = form.querySelector('#interesse');
+    var subkat = 'Lidstraffung';
+    if (interesseSelect && interesseSelect.value) {
+      subkat = interesseSelect.options[interesseSelect.selectedIndex].text;
+    }
+    formData.set('behandlung_subkategorie', subkat);
+
+    // Remove internal fields Zapier doesn't need
+    formData.delete('interesse');
+
     // Extract user data for GTM
-    var fullName = (formData.get('name') || '').trim();
-    var phone = (formData.get('telefon') || '').trim();
-    var mail = (formData.get('email') || '').trim();
+    var fullName = (formData.get('Name') || '').trim();
+    var phone = (formData.get('Telefonnummer') || '').trim();
+    var mail = (formData.get('E-Mail-Adresse') || '').trim();
 
     var nameParts = fullName.split(' ');
     var firstName = nameParts[0] || '';
