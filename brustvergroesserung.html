@@ -163,6 +163,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .ft-source { font-size: 14px; color: var(--text-light); font-weight: 500; }
 
     /* PROBLEM / EMPATHY SECTION */
+    /* Video Testimonials */
+    .video-testimonials-section { background: var(--accent-ultralight); padding: var(--space-5xl) 0; }
+    .video-testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 700px; margin: 0 auto; }
+    .video-testimonial-card { border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.10); background: var(--white); }
+    .video-wrapper-portrait { position: relative; aspect-ratio: 9/16; overflow: hidden; cursor: pointer; }
+    .video-wrapper-portrait video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: none; border: none; cursor: pointer; z-index: 2; transition: transform 0.3s ease, opacity 0.3s ease; }
+    .video-play-btn:hover { transform: translate(-50%, -50%) scale(1.1); }
+    .video-play-btn.hidden { opacity: 0; pointer-events: none; }
+    @media (max-width: 600px) {
+      .video-testimonials-grid { grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 100%; }
+      .video-testimonials-section { padding: var(--space-3xl) 0; }
+    }
+
     .empathy-section { background: var(--bg-dark); padding: var(--space-5xl) 0; position: relative; overflow: hidden; }
     .empathy-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(201,169,110,0.1) 0%, transparent 70%); pointer-events: none; }
     .empathy-section h2 { color: var(--white); }
@@ -522,6 +536,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="ft-inner fade-up">
       <p class="ft-quote">„Absolute Empfehlung! Er nimmt sich wirklich Zeit und geht auf das Anliegen ein. Als Patientin fühlt man sich verstanden – er findet gezielt die passende Methode, abgestimmt auf Wunsch und persönliche Situation."</p>
       <p class="ft-source">– Verifizierte Patientin · Jameda Bewertung 2024</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO TESTIMONIALS SECTION -->
+<section class="video-testimonials-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="accent-line"></div>
+      <h2>Unsere Patientinnen erzählen</h2>
+      <p class="section-subtitle">Echte Erfahrungsberichte von Frauen, die sich für eine Brustvergrößerung bei Dr. Hosseini entschieden haben.</p>
+    </div>
+    <div class="video-testimonials-grid">
+      <div class="video-testimonial-card fade-up">
+        <div class="video-wrapper-portrait">
+          <video poster="videos/poster-bv-1.jpg" controls playsinline preload="metadata">
+            <source src="videos/testimonial-bv-1-web.mp4" type="video/mp4">
+          </video>
+          <button class="video-play-btn" aria-label="Video abspielen">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="rgba(48,66,106,0.85)"/><polygon points="20,16 34,24 20,32" fill="white"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="video-testimonial-card fade-up fade-up-delay-1">
+        <div class="video-wrapper-portrait">
+          <video poster="videos/poster-bv-2.jpg" controls playsinline preload="metadata">
+            <source src="videos/testimonial-bv-2-web.mp4" type="video/mp4">
+          </video>
+          <button class="video-play-btn" aria-label="Video abspielen">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="rgba(48,66,106,0.85)"/><polygon points="20,16 34,24 20,32" fill="white"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1442,6 +1489,21 @@ document.querySelectorAll('.faq-question').forEach(q => {
   overlay.addEventListener('click', closeNav);
   // Note: nav link clicks are handled by the smooth-scroll handler above (closes nav + scrolls)
 })();
+
+// Video testimonial play buttons
+document.querySelectorAll('.video-wrapper-portrait').forEach(function(wrapper) {
+  var video = wrapper.querySelector('video');
+  var btn = wrapper.querySelector('.video-play-btn');
+  if (!video || !btn) return;
+  function playVideo() {
+    video.play();
+    btn.classList.add('hidden');
+  }
+  btn.addEventListener('click', playVideo);
+  video.addEventListener('play', function() { btn.classList.add('hidden'); });
+  video.addEventListener('pause', function() { btn.classList.remove('hidden'); });
+  video.addEventListener('ended', function() { btn.classList.remove('hidden'); });
+});
 </script>
 </body>
 </html>
